@@ -12,12 +12,15 @@ import config from "./src/config/config.json";
 // https://astro.build/config
 export default defineConfig({
   // site: config.site.base_url ? config.site.base_url : "http://examplesite.com",
-  site:  config.site.base_url ? config.site.base_url : "https://juan.lupion.net",
-  output: 'static', 
+  site: config.site.base_url ? config.site.base_url : "https://juan.lupion.net",
+  output: 'static',
   //base: config.site.base_path ? config.site.base_path : "/",
   trailingSlash: config.site.trailing_slash ? "always" : "never",
 
-  image: { service: sharp() },
+  image: {
+    service: sharp(),
+    remotePatterns: [{ protocol: "https", hostname: "img.youtube.com" }],
+  },
   vite: { plugins: [tailwindcss()] },
   integrations: [
     react(),
@@ -28,7 +31,7 @@ export default defineConfig({
         "@/shortcodes/Accordion",
         "@/shortcodes/Notice",
         "@/shortcodes/Video",
-        "@/shortcodes/Youtube",
+        "@/shortcodes/Youtube.astro",
         "@/shortcodes/Tabs",
         "@/shortcodes/Tab",
       ],

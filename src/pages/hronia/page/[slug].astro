@@ -1,0 +1,118 @@
+---
+import BlogCardArchive from "@/components/BlogCardArchive.astro";
+import Pagination from "@/components/Pagination.astro";
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import PageHeader from "@/partials/PageHeader.astro";
+
+const BLOG_FOLDER = "hronia";
+
+const { slug } = Astro.params;
+const postIndex = await getListPage(BLOG_FOLDER, "-index");
+
+if (postIndex.data.draft) {
+  return Astro.redirect("/404");
+}
+
+const posts = await getSinglePage(BLOG_FOLDER);
+// const allCategories = await getAllTaxonomy(BLOG_FOLDER, "categories");
+// const categories = await getTaxonomy(BLOG_FOLDER, "categories");
+// const tags = await getTaxonomy(BLOG_FOLDER, "tags");
+const pagination = 5;
+const sortedPosts = sortByDate(posts);
+const totalPages = Math.ceil(posts.length / pagination);
+const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
+const indexOfLastPost = currentPage * pagination;
+const indexOfFirstPost = indexOfLastPost - pagination;
+const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+export async function getStaticPaths() {
+  const BLOG_FOLDER = "hronia";
+  const pagination = 5;
+  const posts = await getSinglePage(BLOG_FOLDER);
+  const totalPages = Math.ceil(posts.length / pagination);
+  const paths = [];
+
+  for (let i = 1; i < totalPages; i++) {
+    paths.push({
+      params: {
+        slug: (i + 1).toString(),
+      },
+    });
+  }
+  return paths;
+}
+---
+
+<Base
+  title={postIndex.data.title}
+  meta_title={postIndex.data.meta_title}
+  image={postIndex.data.image}
+  description={postIndex.data.description}
+>
+  <PageHeader title="Yogur Griego" />
+  <section class="section">
+    <div class="container">
+      <div class="notice note">
+        <div class="notice-head">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 9V14M10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10C19 14.9706 14.9706 19 10 19ZM10.0498 6V6.1L9.9502 6.1002V6H10.0498Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+          <p class="my-0 ml-1.5 font-bold">Yogur Griego</p>
+        </div>
+        <div class="notice-body text-text! dark:text-darkmode-text!">
+          <p>
+            <a href="https://hronia.blogalia.com">Yogur Griego</a> era el nombre del
+            blog que estuve publicando en <a href="https://www.blogalia.com"
+              >Blogalia</a
+            > desde 2003 a 2012. No negaré que leer esto ahora me da un poco de vergüenza
+            ajena, todo lo ajeno que está uno de lo que escribía hace dos décadas.
+            Pero soy un firme defensor de que los archivos deben preservarse, así
+            que aquí está el archivo total de aquellos posts. No puedo dejar de agradecer
+            a Victor R. Ruíz, por crear Blogalia en su día, pionera de los blogs en
+            español y mantenerla viva hasta la fecha. Por cierto, si alguien encuentra
+            algún enlace roto, por favor, que me lo haga saber.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="row gx-5">
+        <!-- blog posts -->
+        <div class="lg:col-8">
+          <div class="row">
+            {
+              currentPosts.map((post) => (
+                <div class="mb-14 md:col-10">
+                  <BlogCardArchive data={post} section="hronia" />
+                </div>
+              ))
+            }
+          </div>
+          <Pagination
+            section={BLOG_FOLDER}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

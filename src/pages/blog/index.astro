@@ -1,5 +1,5 @@
 ---
-import BlogCard from "@/components/BlogCard.astro";
+import BlogCardArchive from "@/components/BlogCardArchive.astro";
 import Pagination from "@/components/Pagination.astro";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
@@ -36,15 +36,15 @@ const currentPosts = sortedPosts.slice(0, config.settings.pagination);
       <div class="row gx-5">
         <!-- blog posts -->
         <div class="lg:col-8">
-          <div class="row">
-            {
-              currentPosts.map((post) => (
-                <div class="mb-14 md:col-6">
-                  <BlogCard data={post} />
-                </div>
-              ))
-            }
-          </div>
+<div class="row">
+             {
+               currentPosts.map((post) => (
+                 <div class="mb-14 md:col-10">
+                   <BlogCardArchive data={post} section="blog" />
+                 </div>
+               ))
+             }
+           </div>
           <Pagination
             section={BLOG_FOLDER}
             currentPage={1}

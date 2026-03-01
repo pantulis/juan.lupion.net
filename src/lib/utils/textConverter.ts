@@ -13,6 +13,7 @@ export const markdownify = (content: string, div?: boolean) => {
 
 // humanize
 export const humanize = (content: string) => {
+  if (!content) return "";
   return content
     .replace(/^[\s_]+|[\s_]+$/g, "")
     .replace(/[_\s]+/g, " ")
@@ -24,6 +25,7 @@ export const humanize = (content: string) => {
 
 // titleify
 export const titleify = (content: string) => {
+  if (!content) return "";
   const humanized = humanize(content);
   return humanized
     .split(" ")
@@ -33,6 +35,7 @@ export const titleify = (content: string) => {
 
 // plainify
 export const plainify = (content: string) => {
+  if (!content) return "";
   const parseMarkdown: any = marked.parse(content);
   const filterBrackets = parseMarkdown.replace(/<\/?[^>]+(>|$)/gm, "");
   const filterSpaces = filterBrackets.replace(/[\r\n]\s*[\r\n]/gm, "");
@@ -42,6 +45,7 @@ export const plainify = (content: string) => {
 
 // strip entities for plainify
 const htmlEntityDecoder = (htmlWithEntities: string) => {
+  if (!htmlWithEntities) return "";
   let entityList: { [key: string]: string } = {
     "&nbsp;": " ",
     "&lt;": "<",

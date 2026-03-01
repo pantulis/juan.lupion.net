@@ -1,0 +1,91 @@
+---
+import Base from "@/layouts/Base.astro";
+import PageHeader from "@/partials/PageHeader.astro";
+
+const title = "Política de Privacidad";
+const description =
+  "Política de privacidad para el sitio web personal de Juan Lupión.";
+---
+
+<Base title={title} description={description}>
+  <PageHeader title={title} />
+  <section class="section-sm">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-10">
+          <div class="content">
+            <p>
+              Última actualización: {new Date().toLocaleDateString("es-ES")}
+            </p>
+
+            <h3>1. Información General</h3>
+            <p>
+              Esta política de privacidad describe cómo se recopila, utiliza y
+              protege la información personal en este sitio web personal. Como
+              sitio personal, el tratamiento de datos es mínimo y se rige por el
+              principio de transparencia y respeto a tu privacidad.
+            </p>
+
+            <h3>2. Recopilación de Datos</h3>
+            <p>
+              Este sitio web puede recopilar datos de las siguientes maneras:
+            </p>
+            <ul>
+              <li>
+                <strong>Datos de navegación:</strong> Es posible que se recopilen
+                datos técnicos de forma anónima (como dirección IP, tipo de navegador,
+                sistema operativo) a través de herramientas de análisis con el único
+                fin de mejorar la experiencia del usuario.
+              </li>
+              <li>
+                <strong>Formularios de contacto:</strong> Si decides contactar conmigo
+                a través de cualquier formulario, los datos proporcionados (nombre,
+                correo electrónico, mensaje) se utilizarán exclusivamente para responder
+                a tu consulta.
+              </li>
+            </ul>
+
+            <h3>3. Cookies</h3>
+            <p>
+              Utilizamos cookies para mejorar la funcionalidad del sitio. Puedes
+              configurar tu navegador para rechazar todas las cookies o para que
+              te avise cuando se envíe una. Sin embargo, algunas partes del
+              sitio pueden no funcionar correctamente si desactivas las cookies.
+            </p>
+
+            <h3>4. Uso de la Información</h3>
+            <p>
+              Los datos recopilados no se venden, alquilan ni comparten con
+              terceros con fines comerciales. Solo se utilizarán para la gestión
+              del sitio y la comunicación directa cuando haya sido solicitada
+              por el usuario.
+            </p>
+
+            <h3>5. Tus Derechos</h3>
+            <p>
+              Tienes derecho a acceder, rectificar o solicitar la eliminación de
+              tus datos personales en cualquier momento. Para ello, puedes
+              ponerte en contacto conmigo a través de los medios indicadados en
+              la página de contacto.
+            </p>
+
+            <h3>6. Enlaces a Terceros</h3>
+            <p>
+              Este sitio puede contener enlaces a otros sitios web. No soy
+              responsable de las prácticas de privacidad ni del contenido de
+              dichos sitios, por lo que te recomiendo revisar sus propias
+              políticas de privacidad.
+            </p>
+
+            <h3>7. Cambios en esta Política</h3>
+            <p>
+              Me reservo el derecho de actualizar esta política de privacidad en
+              cualquier momento. Los cambios se publicarán en esta misma página
+              con la fecha de actualización correspondiente.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

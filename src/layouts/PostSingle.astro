@@ -8,15 +8,30 @@ import similarItems from "@/lib/utils/similarItems";
 import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
 import { FaRegClock, FaRegFolder, FaRegUserCircle } from "react-icons/fa";
+import Youtube from "./shortcodes/Youtube.astro";
 import ImageMod from "./components/ImageMod.astro";
 
-const COLLECTION_FOLDER = "blog";
 const { post } = Astro.props;
+const { collection } = post;
 
-const posts = await getSinglePage(COLLECTION_FOLDER);
+const posts = await getSinglePage(collection);
 const similarPosts = similarItems(post, posts);
 const { Content } = await render(post);
-const { title, description, author, categories, image, date, tags } = post.data;
+const {
+  title,
+  description,
+  author,
+  categories,
+  image,
+  date,
+  tags,
+  youtube_id,
+} = post.data;
+const displayImage =
+  image ||
+  (youtube_id
+    ? `https://img.youtube.com/vi/${youtube_id}/maxresdefault.jpg`
+    : undefined);
 ---
 
 <section class="section pt-7">
@@ -24,18 +39,25 @@ const { title, description, author, categories, image, date, tags } = post.data;
     <div class="row justify-center">
       <article class="lg:col-10">
         {
-          image && (
-            <div class="mb-10">
-              <ImageMod
-                src={image}
-                height={500}
-                width={1200}
-                alt={title}
-                class="w-full rounded"
-                format="webp"
-              />
-            </div>
-          )
+          collection !== "hronia" &&
+            (youtube_id ? (
+              <div class="mb-10">
+                <Youtube id={youtube_id} title={title} />
+              </div>
+            ) : (
+              displayImage && (
+                <div class="mb-10">
+                  <ImageMod
+                    src={displayImage}
+                    height={500}
+                    width={1200}
+                    alt={title}
+                    class="w-full rounded"
+                    format="webp"
+                  />
+                </div>
+              )
+            ))
         }
         <h1 set:html={markdownify(title)} class="h2 mb-4" />
         <ul class="mb-4">
@@ -64,50 +86,54 @@ const { title, description, author, categories, image, date, tags } = post.data;
         <div class="content mb-10">
           <Content />
         </div>
-        <div class="row items-start justify-between">
-          <div class="mb-10 flex items-center lg:col-5 lg:mb-0">
-            <h5 class="mr-3">Tags :</h5>
-            <ul>
-              {
-                tags.map((tag: string) => (
-                  <li class="inline-block">
-                    <a
-                      class="m-1 block rounded bg-light px-3 py-1 hover:bg-primary hover:text-white dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark"
-                      href={`/tags/${slugify(tag)}`}
-                    >
-                      {humanize(tag)}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-          <div class="flex items-center lg:col-4">
-            <h5 class="mr-3">Share :</h5>
-            <Share
-              className="social-icons"
-              title={title}
-              description={description}
-              slug={post.id}
-            />
-          </div>
-        </div>
+        {
+          collection !== "hronia" && (
+            <div class="row items-start justify-between">
+              <div class="mb-10 flex items-center lg:col-5 lg:mb-0">
+                <h5 class="mr-3">Tags :</h5>
+                <ul>
+                  {tags.map((tag: string) => (
+                    <li class="inline-block">
+                      <a
+                        class="m-1 block rounded bg-light px-3 py-1 hover:bg-primary hover:text-white dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark"
+                        href={`/tags/${slugify(tag)}`}
+                      >
+                        {humanize(tag)}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div class="flex items-center lg:col-4">
+                <h5 class="mr-3">Share :</h5>
+                <Share
+                  className="social-icons"
+                  title={title}
+                  description={description}
+                  slug={post.id}
+                />
+              </div>
+            </div>
+          )
+        }
         <Disqus className="mt-20" client:load />
       </article>
     </div>
 
     <!-- Related posts -->
-    <div class="section pb-0">
-      <h2 class="h3 mb-12 text-center">Related Posts</h2>
-      <div class="row justify-center">
-        {
-          similarPosts.map((post) => (
-            <div class="lg:col-4 md:col-6 mb-14">
-              <BlogCard data={post} />
-            </div>
-          ))
-        }
-      </div>
-    </div>
+    {
+      collection !== "hronia" && (
+        <div class="section pb-0">
+          <h2 class="h3 mb-12 text-center">Related Posts</h2>
+          <div class="row justify-center">
+            {similarPosts.map((post) => (
+              <div class="lg:col-4 md:col-6 mb-14">
+                <BlogCard data={post} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
   </div>
 </section>

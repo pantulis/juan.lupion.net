@@ -31,7 +31,7 @@ const similarItems = (currentItem: any, allItems: any[]) => {
     (product) => product.id !== currentItem.id,
   );
 
-  return filterBySlug;
+  return filterBySlug.slice(0, 3);
 };
 
 export default similarItems;

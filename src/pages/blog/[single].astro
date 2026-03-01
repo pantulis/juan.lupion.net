@@ -17,14 +17,19 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { title, meta_title, description, image } = post.data;
+const { title, meta_title, description, image, youtube_id } = post.data;
+const displayImage =
+  image ||
+  (youtube_id
+    ? `https://img.youtube.com/vi/${youtube_id}/maxresdefault.jpg`
+    : undefined);
 ---
 
 <Base
   title={title}
   meta_title={meta_title}
   description={description}
-  image={image}
+  image={displayImage}
 >
   <PostSingle post={post} />
 </Base>

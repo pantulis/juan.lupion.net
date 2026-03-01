@@ -10,9 +10,35 @@ const indexPageLink = currentPage === 2;
 const hasPrevPage = currentPage > 1;
 const hasNextPage = totalPages > currentPage!;
 
+const MAX_PAGES = 7;
 let pageList: number[] = [];
-for (let i = 1; i <= totalPages; i++) {
-  pageList.push(i);
+
+if (totalPages <= MAX_PAGES) {
+  for (let i = 1; i <= totalPages; i++) {
+    pageList.push(i);
+  }
+} else {
+  if (currentPage <= 4) {
+    for (let i = 1; i <= 5; i++) {
+      pageList.push(i);
+    }
+    pageList.push(0);
+    pageList.push(totalPages);
+  } else if (currentPage >= totalPages - 3) {
+    pageList.push(1);
+    pageList.push(0);
+    for (let i = totalPages - 4; i <= totalPages; i++) {
+      pageList.push(i);
+    }
+  } else {
+    pageList.push(1);
+    pageList.push(0);
+    for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+      pageList.push(i);
+    }
+    pageList.push(0);
+    pageList.push(totalPages);
+  }
 }
 ---
 
@@ -68,7 +94,9 @@ for (let i = 1; i <= totalPages; i++) {
 
       {/* page index */}
       {pageList.map((pagination, i) =>
-        pagination === currentPage ? (
+        pagination === 0 ? (
+          <span class="px-2 py-2 text-text-light">...</span>
+        ) : pagination === currentPage ? (
           <span
             aria-current="page"
             class="rounded bg-primary px-4 py-2 text-white dark:bg-darkmode-primary dark:text-text-dark"
@@ -78,7 +106,7 @@ for (let i = 1; i <= totalPages; i++) {
         ) : (
           <a
             href={
-              i === 0
+              pagination === 1
                 ? `${section ? "/" + section : "/"}`
                 : `${section ? "/" + section : ""}/page/${pagination}`
             }

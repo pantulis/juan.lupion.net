@@ -16,25 +16,45 @@ interface Props {
 }
 
 // Destructuring Astro.props to get the component's props
-let { src, alt, width, height, loading, decoding, class: className, format, style } = Astro.props;
+let {
+  src,
+  alt,
+  width,
+  height,
+  loading,
+  decoding,
+  class: className,
+  format,
+  style,
+} = Astro.props;
 
-src = `/public${src}`;
+const isRemote = src.startsWith("http");
+
+if (!isRemote) {
+  src = `/public${src}`;
+}
 
 // Glob pattern to load images from the /public/images folder
 const images = import.meta.glob("/public/images/**/*.{jpeg,jpg,png,gif,svg}");
 
 // Check if the source path is valid
-const isValidPath = images[src] ? true : false;
+const isValidPath = isRemote || (images[src] ? true : false);
 
 // Log a warning message in red if the image is not found
 !isValidPath &&
-  console.error(`\x1b[31mImage not found - ${src}.\x1b[0m Make sure the image is in the /public/images folder.`);
+  console.error(
+    `\x1b[31mImage not found - ${src}.\x1b[0m Make sure the image is in the /public/images folder.`,
+  );
 ---
 
 {
   isValidPath && (
     <Image
-      src={images[src]() as Promise<{ default: ImageMetadata }>}
+      src={
+        (isRemote
+          ? src
+          : (images[src]() as Promise<{ default: ImageMetadata }>)) as any
+      }
       alt={alt}
       width={width}
       height={height}

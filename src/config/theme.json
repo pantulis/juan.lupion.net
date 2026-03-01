@@ -31,13 +31,13 @@
   },
   "fonts": {
     "font_family": {
-      "primary": "EB Garamond:wght@400;500;600;700",
-      "primary_type": "serif",
-      "secondary": "EB Garamond:wght@400;500;600;700",
-      "secondary_type": "serif"
+      "primary": "Avenir:wght@400;500;600;700",
+      "primary_type": "sans-serif",
+      "secondary": "Avenir:wght@400;500;600;700",
+      "secondary_type": "sans-serif"
     },
     "font_size": {
-      "base": "16",
+      "base": "18",
       "scale": "1.2"
     }
   }
