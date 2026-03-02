@@ -23,8 +23,8 @@ const currentPosts = sortedPosts.slice(0, 4); // Display latest 4 posts
 >
   <section class="section pb-14 pt-16">
     <div class="container">
-      <div class="row justify-center">
-        <div class="lg:col-10">
+      <div class="row justify-left">
+        <div class="lg:col-12">
           <h1
             class="mb-6 font-serif text-5xl leading-tight text-dark dark:text-light md:text-6xl"
           >
@@ -80,13 +80,13 @@ const currentPosts = sortedPosts.slice(0, 4); // Display latest 4 posts
 
   <section class="section py-14">
     <div class="container">
-      <div class="row justify-center mb-8">
+      <div class="row justify-left mb-12">
         <div class="lg:col-10">
           <h2 class="font-serif text-4xl">Últimos posts</h2>
         </div>
       </div>
-      <div class="row justify-center">
-        <div class="lg:col-10">
+      <div class="row justify-left">
+        <div class="lg:col-12">
           <div class="row">
             {
               currentPosts.map((post) => (
