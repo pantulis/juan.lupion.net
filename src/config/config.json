@@ -5,9 +5,9 @@
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.png",
-    "logo": "/images/juan.lupion.net.png",
-    "logo_darkmode": "/images/juan.lupion.net.png",
-    "logo_width": "150",
+    "logo": "/images/juan-transparent.png",
+    "logo_darkmode": "/images/juan-transparent.png",
+    "logo_width": "60",
     "logo_height": "60",
     "logo_text": "juan.lupion.net"
   },
