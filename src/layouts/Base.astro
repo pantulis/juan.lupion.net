@@ -180,6 +180,9 @@ const { title, meta_title, description, image, noindex, canonical } =
         : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
     />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- RSS Feed Autodiscovery -->
+    <link rel="alternate" type="application/rss+xml" title={`${config.site.title || "Blog"} - RSS Feed`} href={`${config.site.base_url}/rss.xml`} />
   </head>
   <body>
     {/* google tag manager noscript */}
