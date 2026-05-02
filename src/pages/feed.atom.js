@@ -30,7 +30,7 @@ export async function GET(context) {
         // Build content with YouTube embed if video ID exists, otherwise use full post body
         let content;
         if (youtubeId) {
-            const embedHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}?origin=https://juan.lupion.net" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+            const embedHtml = `<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${youtubeId}?origin=https://juan.lupion.net" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
             content = baseDescription ? `${baseDescription}\n\n${embedHtml}` : embedHtml;
         } else {
             // Use the full post body content
