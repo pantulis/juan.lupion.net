@@ -23,12 +23,24 @@ export async function GET(context) {
         title: config.site.title || "Juan Lupión's Blog",
         description: config.metadata.meta_description || "Blog and texts by Juan Lupión",
         site: context.site || "https://juan.lupion.net",
-        items: sortedPosts.map((post) => ({
-            title: post.data.title,
-            pubDate: post.data.date ? new Date(post.data.date) : new Date(),
-            description: post.data.description || "Read more on the site...",
-            link: `/blog/${post.id.replace(/\.mdx?$/, '')}/`,
-        })),
+        items: sortedPosts.map((post) => {
+            const youtubeId = post.data.youtube_id;
+            const baseDescription = post.data.description || "Read more on the site...";
+            
+            // Build content with YouTube embed if video ID exists
+            let content = baseDescription;
+            if (youtubeId) {
+                const embedHtml = `<p><iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>`;
+                content = `${baseDescription}\n\n${embedHtml}`;
+            }
+            
+            return {
+                title: post.data.title,
+                pubDate: post.data.date ? new Date(post.data.date) : new Date(),
+                description: content,
+                link: `/blog/${post.id.replace(/\.mdx?$/, '')}/`,
+            };
+        }),
         customData: `<language>es-es</language>`,
         stylesheet: '/rss/styles.xsl',
     });
