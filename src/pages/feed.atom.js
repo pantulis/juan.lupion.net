@@ -31,7 +31,7 @@ export async function GET(context) {
         // Build content: include YouTube embed + description + rendered body
         let content;
         if (youtubeId) {
-            const embedHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}?origin=https://juan.lupion.net" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+            const embedHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>`;
             const parts = [];
             if (baseDescription) parts.push(baseDescription);
             parts.push(embedHtml);
