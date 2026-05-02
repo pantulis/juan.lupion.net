@@ -164,16 +164,16 @@ const { title, meta_title, description, image, noindex, canonical } =
       )}
     />
 
-    {/* Image metadata - skip for blog posts without explicit image */}
+    {/* Image metadata - only if explicitly declared */}
     {
-      (!Astro.url.pathname.startsWith("/blog/") || image) && (
+      image && (
         <>
           <!-- og-image -->
           <meta
             property="og:image"
             content={image?.startsWith("http")
               ? image
-              : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
+              : `${config.site.base_url}${image}`}
           />
 
           <!-- twitter-image -->
@@ -181,7 +181,7 @@ const { title, meta_title, description, image, noindex, canonical } =
             name="twitter:image"
             content={image?.startsWith("http")
               ? image
-              : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
+              : `${config.site.base_url}${image}`}
           />
         </>
       )

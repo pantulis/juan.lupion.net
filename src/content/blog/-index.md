@@ -1,7 +1,6 @@
 ---
-title: "Mi Blog"
+title: "Juan Lupión"
 meta_title: ""
-description: "this is meta description"
-image: ""
+description: 
 draft: false
 ---
