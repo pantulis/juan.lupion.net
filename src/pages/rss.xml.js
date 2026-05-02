@@ -41,7 +41,7 @@ export async function GET(context) {
                 link: `/blog/${post.id.replace(/\.mdx?$/, '')}/`,
             };
         }),
-        customData: `<language>es-es</language>`,
+        customData: `<language>es-es</language><image><url>https://juan.lupion.net/images/juan-transparent.png</url><title>${config.site.title}</title><link>https://juan.lupion.net</link></image>`,
         stylesheet: '/rss/styles.xsl',
     });
 }

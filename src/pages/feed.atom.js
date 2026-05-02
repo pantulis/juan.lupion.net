@@ -59,6 +59,8 @@ export async function GET(context) {
     <name>${escapeXml(config.metadata.meta_author || "Juan Lupión")}</name>
   </author>
   <generator uri="https://astro.build/">Astro</generator>
+  <logo>https://juan.lupion.net/images/juan-transparent.png</logo>
+  <icon>https://juan.lupion.net/images/favicon.png</icon>
 ${entries}
 </feed>`;
 
