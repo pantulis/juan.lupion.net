@@ -183,6 +183,9 @@ const { title, meta_title, description, image, noindex, canonical } =
 
     <!-- RSS Feed Autodiscovery -->
     <link rel="alternate" type="application/rss+xml" title={`${config.site.title || "Blog"}`} href={`${config.site.base_url}/rss.xml`} />
+    
+    <!-- Atom Feed Autodiscovery -->
+    <link rel="alternate" type="application/atom+xml" title={`${config.site.title || "Blog"} - Atom`} href={`${config.site.base_url}/feed.atom`} />
   </head>
   <body>
     {/* google tag manager noscript */}
