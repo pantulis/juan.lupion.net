@@ -1,24 +1,30 @@
 {
   "main": [
-    {
-      "name": "facebook",
-      "icon": "FaFacebook",
-      "link": "https://www.facebook.com/"
-    },
+	  {
+		  "name": "RSS",
+		  "icon": "FaRss",
+		  "link": "/rss.xml"
+	  },
     {
       "name": "x",
       "icon": "FaXTwitter",
-      "link": "https://x.com/"
+      "link": "https://x.com/pantulis"
     },
+	{
+		"name": "BlueSky",
+		"icon": "FaBluesky",
+		"link": "https://bsky.app/profile/pantulis.bsky.social"
+		
+	},
     {
       "name": "github",
       "icon": "FaGithub",
-      "link": "https://www.github.com/"
+      "link": "https://github.com/pantulis"
     },
     {
       "name": "linkedin",
       "icon": "FaLinkedin",
-      "link": "https://www.linkedin.com/"
+      "link": "https://www.linkedin.com/in/jlupion"
     }
   ]
 }

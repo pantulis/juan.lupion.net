@@ -5,12 +5,18 @@ import config from "@/config/config.json";
 export async function GET(context) {
     const posts = await getCollection("blog");
 
-    // Filter out drafts and any null/undefined posts
-    const filteredPosts = posts.filter(post => !post.data.draft && post.id !== '-index.md');
+    // Filter out drafts and index files (ids starting with '-')
+    const filteredPosts = posts.filter(post => 
+        !post.data.draft && 
+        !post.id.startsWith('-') &&
+        post.id !== '-index'
+    );
 
     // Sort posts by date descending
     const sortedPosts = filteredPosts.sort((a, b) => {
-        return new Date(b.data.date || new Date()).valueOf() - new Date(a.data.date || new Date()).valueOf();
+        const dateA = a.data.date ? new Date(a.data.date).valueOf() : 0;
+        const dateB = b.data.date ? new Date(b.data.date).valueOf() : 0;
+        return dateB - dateA;
     });
 
     return rss({
@@ -21,8 +27,9 @@ export async function GET(context) {
             title: post.data.title,
             pubDate: post.data.date ? new Date(post.data.date) : new Date(),
             description: post.data.description || "Read more on the site...",
-            link: `/blog/${post.slug || post.id.replace(/\.mdx?$/, '')}/`,
+            link: `/blog/${post.id.replace(/\.mdx?$/, '')}/`,
         })),
         customData: `<language>es-es</language>`,
+        stylesheet: '/rss/styles.xsl',
     });
 }
