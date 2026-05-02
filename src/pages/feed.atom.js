@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import config from "@/config/config.json";
+import { marked } from "marked";
 
 export async function GET(context) {
     const posts = await getCollection("blog");
@@ -33,8 +34,9 @@ export async function GET(context) {
             const embedHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}?origin=https://juan.lupion.net" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
             content = baseDescription ? `${baseDescription}\n\n${embedHtml}` : embedHtml;
         } else {
-            // Use the full post body content
-            content = post.body || baseDescription || "Read more on the site...";
+            // Convert Markdown body to HTML
+            const rawContent = post.body || baseDescription || "Read more on the site...";
+            content = marked.parse(rawContent);
         }
         
         const postDate = post.data.date ? new Date(post.data.date) : new Date();
