@@ -164,21 +164,28 @@ const { title, meta_title, description, image, noindex, canonical } =
       )}
     />
 
-    <!-- og-image -->
-    <meta
-      property="og:image"
-      content={image?.startsWith("http")
-        ? image
-        : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
-    />
+    {/* Image metadata - skip for blog posts without explicit image */}
+    {
+      (!Astro.url.pathname.startsWith("/blog/") || image) && (
+        <>
+          <!-- og-image -->
+          <meta
+            property="og:image"
+            content={image?.startsWith("http")
+              ? image
+              : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
+          />
 
-    <!-- twitter-image -->
-    <meta
-      name="twitter:image"
-      content={image?.startsWith("http")
-        ? image
-        : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
-    />
+          <!-- twitter-image -->
+          <meta
+            name="twitter:image"
+            content={image?.startsWith("http")
+              ? image
+              : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
+          />
+        </>
+      )
+    }
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Atom Feed Autodiscovery -->
