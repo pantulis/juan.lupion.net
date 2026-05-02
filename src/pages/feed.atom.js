@@ -22,15 +22,19 @@ export async function GET(context) {
     const feedUrl = `${siteUrl}/feed.atom`;
     
     // Build Atom entries
-    const entries = sortedPosts.map((post) => {
+    const entries = await Promise.all(sortedPosts.map(async (post) => {
         const postUrl = `${siteUrl}/blog/${post.id.replace(/\.mdx?$/, '')}/`;
         const youtubeId = post.data.youtube_id;
-        let content = post.data.description || "";
+        const baseDescription = post.data.description || "";
         
-        // Add YouTube embed if video ID exists
+        // Build content with YouTube embed if video ID exists, otherwise use full post body
+        let content;
         if (youtubeId) {
             const embedHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-            content = content ? `${content}\n\n${embedHtml}` : embedHtml;
+            content = baseDescription ? `${baseDescription}\n\n${embedHtml}` : embedHtml;
+        } else {
+            // Use the full post body content
+            content = post.body || baseDescription || "Read more on the site...";
         }
         
         const postDate = post.data.date ? new Date(post.data.date) : new Date();
@@ -43,7 +47,9 @@ export async function GET(context) {
       <updated>${postDate.toISOString()}</updated>
       <content type="html">${escapeXml(content)}</content>
     </entry>`;
-    }).join('\n');
+    }));
+    
+    const entriesXml = entries.join('\n');
 
     const buildDate = new Date().toISOString();
 
@@ -61,7 +67,7 @@ export async function GET(context) {
   <generator uri="https://astro.build/">Astro</generator>
   <logo>https://juan.lupion.net/images/juan-transparent.png</logo>
   <icon>https://juan.lupion.net/images/favicon.png</icon>
-${entries}
+${entriesXml}
 </feed>`;
 
     return new Response(atomFeed, {

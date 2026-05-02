@@ -23,15 +23,19 @@ export async function GET(context) {
         title: config.site.title || "Juan Lupión's Blog",
         description: config.metadata.meta_description || "Blog and texts by Juan Lupión",
         site: context.site || "https://juan.lupion.net",
-        items: sortedPosts.map((post) => {
+        items: await Promise.all(sortedPosts.map(async (post) => {
             const youtubeId = post.data.youtube_id;
-            const baseDescription = post.data.description || "Read more on the site...";
+            const baseDescription = post.data.description || "";
             
-            // Build content with YouTube embed if video ID exists
-            let content = baseDescription;
+            // Build content with YouTube embed if video ID exists, otherwise use full post body
+            let content;
             if (youtubeId) {
                 const embedHtml = `<p><iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>`;
-                content = `${baseDescription}\n\n${embedHtml}`;
+                content = baseDescription ? `${baseDescription}\n\n${embedHtml}` : embedHtml;
+            } else {
+                // Render the full post body to HTML
+                const { Content } = await post.render();
+                content = post.body || baseDescription || "Read more on the site...";
             }
             
             return {
@@ -40,7 +44,7 @@ export async function GET(context) {
                 description: content,
                 link: `/blog/${post.id.replace(/\.mdx?$/, '')}/`,
             };
-        }),
+        })),
         customData: `<language>es-es</language><image><url>https://juan.lupion.net/images/juan-transparent.png</url><title>${config.site.title}</title><link>https://juan.lupion.net</link></image>`,
         stylesheet: '/rss/styles.xsl',
     });
