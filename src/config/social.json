@@ -3,7 +3,7 @@
 	  {
 		  "name": "RSS",
 		  "icon": "FaRss",
-		  "link": "/rss.xml"
+		  "link": "/feed.atom"
 	  },
     {
       "name": "x",
