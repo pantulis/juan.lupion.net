@@ -28,11 +28,15 @@ export async function GET(context) {
         const youtubeId = post.data.youtube_id;
         const baseDescription = post.data.description || "";
         
-        // Build content with YouTube embed if video ID exists, otherwise use full post body
+        // Build content: include YouTube embed + description + rendered body
         let content;
         if (youtubeId) {
             const embedHtml = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}?origin=https://juan.lupion.net" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-            content = baseDescription ? `${baseDescription}\n\n${embedHtml}` : embedHtml;
+            const parts = [];
+            if (baseDescription) parts.push(baseDescription);
+            parts.push(embedHtml);
+            if (post.body) parts.push(marked.parse(post.body));
+            content = parts.join("\n\n");
         } else {
             // Convert Markdown body to HTML
             const rawContent = post.body || baseDescription || "Read more on the site...";
