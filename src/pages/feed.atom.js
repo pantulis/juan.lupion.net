@@ -19,7 +19,7 @@ export async function GET(context) {
         return dateB - dateA;
     });
 
-    const siteUrl = context.site || "https://juan.lupion.net";
+    const siteUrl = (context.site || "https://juan.lupion.net").replace(/\/$/, "");
     const feedUrl = `${siteUrl}/feed.atom`;
     
     // Build Atom entries
